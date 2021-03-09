@@ -28,6 +28,44 @@ struct State {
 impl Solution {
     pub fn add_one_row(root: Option<Rc<RefCell<TreeNode>>>, v: i32, d: i32) -> Option<Rc<RefCell<TreeNode>>> {
         
+        if root.is_none() {
+            return None;
+        }
+        let root = root.unwrap();
+        
+        if d == 1 {            
+            return Some(Rc::new(RefCell::new(TreeNode {
+                    val: v,
+                    left: Some(root),
+                    right: None,
+            })));
+        }
+        
+        let mut node = root.borrow_mut();
+        
+        if d == 2 {
+            node.left = Some(Rc::new(RefCell::new(TreeNode {
+                val: v,
+                left: node.left.clone(),
+                right: None,
+            })));
+            node.right = Some(Rc::new(RefCell::new(TreeNode {
+                val: v,
+                left: None,
+                right: node.right.clone(),
+            })));
+            
+            return Some(root.clone());
+        }
+        
+        node.left = Solution::add_one_row(node.left.clone(), v, d - 1);
+        node.right = Solution::add_one_row(node.right.clone(), v, d - 1);
+        
+        Some(root.clone())
+    }
+    
+    pub fn add_one_row1(root: Option<Rc<RefCell<TreeNode>>>, v: i32, d: i32) -> Option<Rc<RefCell<TreeNode>>> {
+        
         // check root is not None
         if root.is_none() {
             return None;
