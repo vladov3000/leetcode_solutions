@@ -92,6 +92,7 @@ solution:
     jmp end
 
 _main:
+  # test case 1
   leaq test_case_1(%rip), %rdi
   movq $0x5, %rsi
   ACALL solution
@@ -102,6 +103,7 @@ _main:
   movq %rax, %rcx
   ACALL _printf
 
+  # test case 2
   leaq test_case_2(%rip), %rdi
   movq $0x3, %rsi
   ACALL solution
@@ -112,6 +114,7 @@ _main:
   movq %rax, %rcx
   ACALL _printf
 
+  # test case 3
   leaq test_case_3(%rip), %rdi
   movq $0x0, %rsi
   ACALL solution
