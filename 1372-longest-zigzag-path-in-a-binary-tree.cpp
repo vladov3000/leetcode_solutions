@@ -1,19 +1,22 @@
+struct Result {
+    int left;
+    int right;
+    int best;
+};
 
-static int helper(
-    const TreeNode* root, 
-    unordered_map<const TreeNode*, int>& left, 
-    unordered_map<const TreeNode*, int>& right
-) {
+static Result helper(const TreeNode* root) {
     if (root == nullptr)
-        return 0;
+        return (Result) { .left = 0, .right = 0, .best = 0 };
 
-    int result = max(helper(root->left, left, right), 
-                     helper(root->right, left, right));
-    
-    left[root]  = root->left == nullptr ? 0 : (right[root->left] + 1);
-    right[root] = root->right == nullptr ? 0 : (left[root->right] + 1);
+    Result left = helper(root->left);
+    Result right = helper(root->right);
+    int best = max(left.best, right.best);
 
-    return max(result, max(left[root], right[root]));
+    return (Result) {
+        .left = left.right + 1,
+        .right = right.left + 1,
+        .best = max(best, max(left.right, right.left)),
+    };
 }
 
 /**
@@ -30,7 +33,6 @@ static int helper(
 class Solution {
 public:
     int longestZigZag(const TreeNode* root) {
-        unordered_map<const TreeNode*, int> left, right;
-        return helper(root, left, right);
+        return helper(root).best;
     }
 };
