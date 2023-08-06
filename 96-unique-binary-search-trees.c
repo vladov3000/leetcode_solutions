@@ -9,3 +9,15 @@ int numTrees(int n) {
 
     return solutions[n];
 }
+
+/* Naive O((2n) ^ n)
+int numTrees(int n) {
+    if (n < 2)
+        return 1;
+
+    int result = 0;
+    for (int i = 1; i <= n; i++)
+        result += numTrees(i - 1) * numTrees(n - i);
+    return result;
+}
+*/
